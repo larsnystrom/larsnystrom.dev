@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/about/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/posts/first-post/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/tags/hugo/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/posts/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/tags/shibui/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/tags/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/tags/web/</loc>
+    <lastmod>2026-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://larsnystrom.github.io/larsnystrom.dev/categories/</loc>
+  </url>
+</urlset>
