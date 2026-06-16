@@ -6,26 +6,26 @@ publishDir = "docs"
 enableRobotsTXT = true
 
 [params]
-  [params.author]
-    name = "Lars Nystrom"
-    email = "hello@larsnystrom.dev"
-  description = "Personal site built with Hugo and the Shibui theme."
+[params.author]
+name = "Lars Nystrom"
+email = "hello@larsnystrom.dev"
+description = "Personal site built with Hugo and the Shibui theme."
 
 [markup]
-  defaultMarkdownHandler = "goldmark"
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
+defaultMarkdownHandler = "goldmark"
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
 
 [menu]
-  [[menu.main]]
-    identifier = "posts"
-    name = "Posts"
-    url = "/posts/"
-    weight = 1
+[[menu.main]]
+identifier = "posts"
+name = "Posts"
+url = "/posts/"
+weight = 1
 
-  [[menu.main]]
-    identifier = "about"
-    name = "About"
-    url = "/about/"
-    weight = 2
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 2
