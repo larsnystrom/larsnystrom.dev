@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Home on Lars Nystrom</title>
-		<link>https://larsnystrom.github.io/larsnystrom.dev/</link>
+		<link>https://larsnystrom.dev/</link>
 		<description>Recent content in Home on Lars Nystrom</description>
 		<generator>Hugo</generator>
 		<language>en-us</language>
@@ -16,19 +16,19 @@
 		
 			<lastBuildDate>Tue, 16 Jun 2026 00:00:00 +0000</lastBuildDate>
 		
-			<atom:link href="https://larsnystrom.github.io/larsnystrom.dev/index.xml" rel="self" type="application/rss+xml" />
+			<atom:link href="https://larsnystrom.dev/index.xml" rel="self" type="application/rss+xml" />
 			<item>
 				<title>About</title>
-				<link>https://larsnystrom.github.io/larsnystrom.dev/about/</link>
+				<link>https://larsnystrom.dev/about/</link>
 				<pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate><author>hello@larsnystrom.dev (Lars Nystrom)</author>
-				<guid>https://larsnystrom.github.io/larsnystrom.dev/about/</guid>
+				<guid>https://larsnystrom.dev/about/</guid>
 				<description>&lt;p&gt;Hello, I’m Lars Nystrom. This site is built with Hugo and the Shibui theme.&lt;/p&gt;&#xA;&lt;p&gt;I write about web development, design, and minimal site experiences.&lt;/p&gt;</description>
 			</item>
 			<item>
 				<title>First post</title>
-				<link>https://larsnystrom.github.io/larsnystrom.dev/posts/first-post/</link>
+				<link>https://larsnystrom.dev/posts/first-post/</link>
 				<pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate><author>hello@larsnystrom.dev (Lars Nystrom)</author>
-				<guid>https://larsnystrom.github.io/larsnystrom.dev/posts/first-post/</guid>
+				<guid>https://larsnystrom.dev/posts/first-post/</guid>
 				<description>&lt;p&gt;This is the first post on the new Hugo site using the Shibui theme. It demonstrates the site structure and content formatting.&lt;/p&gt;</description>
 			</item>
 	</channel>

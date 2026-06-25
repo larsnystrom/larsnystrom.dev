@@ -1,4 +1,4 @@
-baseURL = "https://larsnystrom.github.io/larsnystrom.dev/"
+baseURL = "https://larsnystrom.dev/"
 locale = "en-us"
 title = "Lars Nystrom"
 theme = "shibui"
