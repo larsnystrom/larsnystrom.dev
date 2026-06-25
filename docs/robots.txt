@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://larsnystrom.github.io/larsnystrom.dev/sitemap.xml
+Sitemap: https://larsnystrom.dev/sitemap.xml
