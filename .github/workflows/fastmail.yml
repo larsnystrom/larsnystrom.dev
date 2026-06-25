@@ -44,8 +44,11 @@ jobs:
           curl -L -o /tmp/rclone.zip "https://github.com/rclone/rclone/releases/download/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.zip"
           RCLONE_BIN="$(python3 - <<'PY'
           import zipfile
+
           archive = zipfile.ZipFile('/tmp/rclone.zip')
-          binary = next(name for name in archive.namelist() if name.endswith('/rclone'))
+          binary = next((name for name in archive.namelist() if name.endswith('/rclone')), None)
+          if binary is None:
+              raise SystemExit('rclone binary was not found in the downloaded archive')
           archive.extract(binary, '/tmp/rclone-extract')
           print(f'/tmp/rclone-extract/{binary}')
           PY
@@ -109,7 +112,8 @@ jobs:
       - name: Deploy site
         run: |
           set -euo pipefail
-          remote_path="${FASTMAIL_REMOTE_PATH#/}"
+          remote_path="${FASTMAIL_REMOTE_PATH:-}"
+          remote_path="${remote_path#/}"
           destination="fastmail:"
           if [ -n "${remote_path}" ]; then
             destination="fastmail:${remote_path}"
