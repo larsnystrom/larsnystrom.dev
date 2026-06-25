@@ -1,0 +1,103 @@
+name: Build and Deploy Hugo site to Fastmail
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: fastmail-deploy
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      BUILD_DIR: /tmp/hugo-site
+      HUGO_VERSION: 0.163.2
+      RCLONE_VERSION: 1.74.3
+      FASTMAIL_PASSWORD: ${{ secrets.FASTMAIL_PASSWORD }}
+      FASTMAIL_USERNAME: ${{ vars.FASTMAIL_USERNAME }}
+      FASTMAIL_REMOTE_PATH: ${{ vars.FASTMAIL_REMOTE_PATH }}
+      FASTMAIL_WEBDAV_URL: ${{ vars.FASTMAIL_WEBDAV_URL }}
+      SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Install Hugo
+        run: |
+          set -euo pipefail
+          curl -L -o /tmp/hugo.tar.gz "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          tar -xzf /tmp/hugo.tar.gz -C /tmp
+          sudo install /tmp/hugo /usr/local/bin/hugo
+
+      - name: Install rclone
+        run: |
+          set -euo pipefail
+          curl -L -o /tmp/rclone.zip "https://github.com/rclone/rclone/releases/download/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-linux-amd64.zip"
+          RCLONE_BIN="$(python3 - <<'PY'
+          import zipfile
+          archive = zipfile.ZipFile('/tmp/rclone.zip')
+          binary = next(name for name in archive.namelist() if name.endswith('/rclone'))
+          archive.extract(binary, '/tmp/rclone-extract')
+          print(f'/tmp/rclone-extract/{binary}')
+          PY
+          )"
+          sudo install "${RCLONE_BIN}" /usr/local/bin/rclone
+
+      - name: Build site
+        run: |
+          set -euo pipefail
+          rm -rf "${BUILD_DIR}"
+          if [ -z "${SITE_BASE_URL}" ] && [ -f docs/CNAME ]; then
+            SITE_BASE_URL="https://$(tr -d '\n' < docs/CNAME)/"
+          fi
+          if [ -z "${SITE_BASE_URL}" ]; then
+            hugo --minify --destination "${BUILD_DIR}"
+          else
+            hugo --minify --baseURL "${SITE_BASE_URL}" --destination "${BUILD_DIR}"
+          fi
+
+      - name: Configure rclone
+        run: |
+          set -euo pipefail
+          username="${FASTMAIL_USERNAME}"
+          if [ -z "${username}" ]; then
+            username="$(sed -n 's/^email = "\(.*\)"/\1/p' config.toml | head -n 1)"
+          fi
+          if [ -z "${username}" ]; then
+            echo "FASTMAIL_USERNAME repository variable is required when config.toml does not expose the Fastmail login email." >&2
+            exit 1
+          fi
+          if [ -z "${FASTMAIL_PASSWORD}" ]; then
+            echo "FASTMAIL_PASSWORD secret is required." >&2
+            exit 1
+          fi
+          webdav_url="${FASTMAIL_WEBDAV_URL:-https://webdav.fastmail.com/}"
+          mkdir -p "${HOME}/.config/rclone"
+          umask 077
+          cat > "${HOME}/.config/rclone/rclone.conf" <<EOF
+          [fastmail]
+          type = webdav
+          url = ${webdav_url}
+          vendor = fastmail
+          user = ${username}
+          pass = $(rclone obscure "${FASTMAIL_PASSWORD}")
+          EOF
+
+      - name: Deploy site
+        run: |
+          set -euo pipefail
+          remote_path="${FASTMAIL_REMOTE_PATH#/}"
+          destination="fastmail:"
+          if [ -n "${remote_path}" ]; then
+            destination="fastmail:${remote_path}"
+          fi
+          rclone sync "${BUILD_DIR}" "${destination}" --checksum --delete-during
