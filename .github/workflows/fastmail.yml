@@ -56,8 +56,12 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf "${BUILD_DIR}"
-          if [ -z "${SITE_BASE_URL}" ] && [ -f docs/CNAME ]; then
-            SITE_BASE_URL="https://$(tr -d '\n' < docs/CNAME)/"
+          if [ -z "${SITE_BASE_URL}" ]; then
+            if [ -f docs/CNAME ]; then
+              SITE_BASE_URL="https://$(tr -d '\n' < docs/CNAME)/"
+            elif [ -f CNAME ]; then
+              SITE_BASE_URL="https://$(tr -d '\n' < CNAME)/"
+            fi
           fi
           if [ -z "${SITE_BASE_URL}" ]; then
             hugo --minify --destination "${BUILD_DIR}"
@@ -70,7 +74,17 @@ jobs:
           set -euo pipefail
           username="${FASTMAIL_USERNAME}"
           if [ -z "${username}" ]; then
-            username="$(sed -n 's/^email = "\(.*\)"/\1/p' config.toml | head -n 1)"
+            username="$(python3 - <<'PY'
+            import pathlib
+            import tomllib
+
+            config_path = pathlib.Path('config.toml')
+            if config_path.exists():
+                config = tomllib.loads(config_path.read_text())
+                author = config.get('params', {}).get('author', {})
+                print(author.get('email', ''))
+            PY
+            )"
           fi
           if [ -z "${username}" ]; then
             echo "FASTMAIL_USERNAME repository variable is required when config.toml does not expose the Fastmail login email." >&2
@@ -101,3 +115,7 @@ jobs:
             destination="fastmail:${remote_path}"
           fi
           rclone sync "${BUILD_DIR}" "${destination}" --checksum --delete-during
+
+      - name: Remove rclone config
+        if: always()
+        run: rm -f "${HOME}/.config/rclone/rclone.conf"
