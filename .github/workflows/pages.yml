@@ -20,10 +20,14 @@ jobs:
           submodules: true
           fetch-depth: 0
 
+      - name: Read Hugo version
+        id: hugo
+        run: echo "version=$(cat .hugo-version)" >> "$GITHUB_OUTPUT"
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@d1c81a15d4e6dca7086a17b9c2565cb70fd576bf # v3
         with:
-          hugo-version: '0.170.1'
+          hugo-version: ${{ steps.hugo.outputs.version }}
 
       - name: Build
         run: hugo --minify --destination public
