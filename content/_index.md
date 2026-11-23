@@ -1,6 +1,6 @@
 ---
 title: "Home"
-description: "Welcome to Lars Nystrom’s site."
+description: "Welcome to Lars Nyström’s site."
 ---
 
 Welcome to my website. This site is built with Hugo using the Shibui theme.

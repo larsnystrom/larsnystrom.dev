@@ -1,13 +1,13 @@
 baseURL = "https://larsnystrom.dev/"
 locale = "en-us"
-title = "Lars Nystrom"
+title = "Lars Nyström"
 theme = "shibui"
 publishDir = "docs"
 enableRobotsTXT = true
 
 [params]
 [params.author]
-name = "Lars Nystrom"
+name = "Lars Nyström"
 email = "hello@larsnystrom.dev"
 description = "Personal site built with Hugo and the Shibui theme."
 
