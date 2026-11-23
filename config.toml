@@ -2,7 +2,7 @@ baseURL = "https://larsnystrom.dev/"
 locale = "en-us"
 title = "Lars Nyström"
 theme = "shibui"
-publishDir = "docs"
+publishDir = "public"
 enableRobotsTXT = true
 
 [params]
